@@ -5,4 +5,4 @@ from dataclasses import dataclass
 class Node:
     iposition: int
     jposition: int
-    name: str = ""
+    name: str = "."
