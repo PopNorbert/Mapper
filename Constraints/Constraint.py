@@ -7,7 +7,7 @@ class Constraint(ABC):
     def __init__(self):
         pass
 
-    def correct(self):
+    def correct(self, map:Map):
         pass
 
     def partcorrect(self,map:Map):

@@ -1,4 +1,5 @@
 from Constraints.Constraint import Constraint
+from Entities.Map import Map
 
 
 class RelationalConstraint(Constraint):
