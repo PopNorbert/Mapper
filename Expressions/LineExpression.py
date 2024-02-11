@@ -9,6 +9,10 @@ class LineExpression(Expression):
         self.name = name
 
     def eval(self, state: State):
-        if state.map.position(self.name):
-            return state.map.position(self.name)[0]
+        c = state.map.position(self.name)
+        if c:
+            return [pos[0] for pos in c]
         return None
+
+    def __str__(self):
+        return f"L_{self.name}"

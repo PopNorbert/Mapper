@@ -15,6 +15,12 @@ class LogicConstraint(Constraint):
             "&&":operator.and_,
             "||":operator.or_
         }
+        self.neg = {
+            "&&":"||",
+            "||":"&&"
+        }
+    def negated(self):
+        return LogicConstraint(self.cons1.negated(),self.cons2.negated(), self.neg[self.op])
 
 
     def correct(self, state:State):
@@ -23,3 +29,6 @@ class LogicConstraint(Constraint):
 
     def partcorrect(self,  state:State):
         return self.operators[self.op](self.cons1.partcorrect(state), self.cons2.partcorrect(state))
+
+    def __str__(self):
+        return f"({str(self.cons1)} {self.op} {str(self.cons2)})"

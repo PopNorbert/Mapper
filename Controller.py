@@ -27,38 +27,42 @@ class Controller:
     def onestep(self):
         if self.consList:
             self.currcons.append(self.consList[0])
-        if self.backtrack(0, 0, self.nodes[:]):
+        if self.backtrack(0, 0, self.nodes.copy()):
             return True
         return False
 
     def allstep(self):
         self.currcons = self.consList
-        if self.backtrack(0, 0, self.nodes[:]):
+        if self.backtrack(0, 0, self.nodes.copy()):
             return True
         return False
 
-    def backtrack(self, i, j, nodenames):
+    def backtrack(self, i, j, nodenames: dict[str:int]):
         map = self.state.map
-        for name in nodenames:
+        if map.width-j-1+(map.height-1-i)*map.width<sum(nodenames.values()):
+            return False
+        for name, amount in nodenames.items():
             map[i][j].name = name
-            self.log(nodenames, map, i, j)
+            #self.log(nodenames, map, i, j)
             if self.allpartcorrect():
-                if self.allcorrect() and len(nodenames) == 1:
+                if self.allcorrect() and len(nodenames) == 1 and nodenames[name] == 1:
                     return True
-                newn = nodenames[:]
-                newn.remove(name)
-                if j==map.width-1 and i!=map.height-1:
-                    if self.backtrack(i+1,0,newn):
+                newn = nodenames.copy()
+                if amount == 1:
+                    newn.pop(name)
+                else:
+                    newn[name] -= 1
+                if j == map.width - 1 and i != map.height - 1:
+                    if self.backtrack(i + 1, 0, newn):
                         return True
-                if j!=map.width-1:
-                    if self.backtrack(i,j+1,newn):
+                if j != map.width - 1:
+                    if self.backtrack(i, j + 1, newn):
                         return True
         map[i][j].name = "."
         if j == map.width - 1 and i != map.height - 1:
-            if self.backtrack(i + 1, 0, nodenames[:]):
+            if self.backtrack(i + 1, 0, nodenames.copy()):
                 return True
-        if j!= map.width - 1:
-            if self.backtrack(i, j + 1, nodenames[:]):
+        if j != map.width - 1:
+            if self.backtrack(i, j + 1, nodenames.copy()):
                 return True
         return False
-

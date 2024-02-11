@@ -9,3 +9,5 @@ class Expression(ABC):
 
     def eval(self, state:State):
         pass
+    def __str__(self):
+        pass

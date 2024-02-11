@@ -23,8 +23,11 @@ class Map:
         return self.data[i]
 
     def position(self, name):
+        res = []
         for i in range(self.height):
             for j in range(self.width):
                 if self.data[i][j].name == name:
-                    return i, j
+                    res.append([i,j])
+        if res:
+            return res
         return None
