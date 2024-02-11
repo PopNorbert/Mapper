@@ -9,8 +9,17 @@ class LengthExpression(Expression):
         self.name2 = name2
 
     def eval(self, state: State):
-        map = state.map
-        if map.position(self.name1) and map.position(self.name2):
-            return (abs(map.position(self.name1)[0] - map.position(self.name2)[0]) ** 2 + abs(
-                map.position(self.name1)[1] - map.position(self.name2)[1]) ** 2) ** 0.5
+        a=state.map.position(self.name1)
+        b=state.map.position(self.name2)
+        res=[]
+        if a and b:
+            for i in a:
+                for j in b:
+                    if i!=j:
+                        res.append((abs(i[0]-j[0])**2+abs(i[1]-j[1])**2)**0.5)
+        if res:
+            return res
         return None
+
+    def __str__(self):
+        return f"{self.name1}{self.name2}"

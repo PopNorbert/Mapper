@@ -13,3 +13,9 @@ class Constraint(ABC):
 
     def partcorrect(self,state:State):
         pass
+
+    def negated(self):
+        pass
+
+    def __str__(self):
+        pass

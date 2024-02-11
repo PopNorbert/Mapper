@@ -19,13 +19,44 @@ class RelationalConstraint(Constraint):
             ">": operator.gt,
             "!=": operator.ne
         }
+        self.neg = {
+            "==": "!=",
+            "!=": "==",
+            ">=": "<",
+            ">": "<=",
+            "<=": ">",
+            "<": ">="
+        }
 
+    def negated(self):
+        return RelationalConstraint(self.ex1,self.ex2,self.neg[self.op])
     def correct(self, state: State):
-        if self.ex1.eval(state) is None or self.ex2.eval(state) is None:
+        a = self.ex1.eval(state)
+        b = self.ex2.eval(state)
+        if a is None or b is None:
             return False
-        return self.operators[self.op](self.ex1.eval(state), self.ex2.eval(state))
+        if len(b) != 1:
+            raise Exception
+        b = b[0]
+        for item in a:
+            if not self.operators[self.op](item, b):
+                return False
+        return True
 
     def partcorrect(self, state: State):
-        if self.ex1.eval(state) is None or self.ex2.eval(state) is None:
+        a=self.ex1.eval(state)
+        b=self.ex2.eval(state)
+        if a is None or b is None:
             return True
-        return self.operators[self.op](self.ex1.eval(state), self.ex2.eval(state))
+        if len(b) != 1:
+            raise Exception
+        b = b[0]
+        for item in a:
+            if not self.operators[self.op](item,b):
+                return False
+        return True
+
+    def __str__(self):
+        return f"({str(self.ex1)} {self.op} {str(self.ex2)})"
+
+
