@@ -22,4 +22,4 @@ class LengthExpression(Expression):
         return None
 
     def __str__(self):
-        return f"{self.name1}{self.name2}"
+        return f"{self.name1}-{self.name2}"
